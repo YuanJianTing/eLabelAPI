@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">eLabelApi</string>
+    <string name="http_error_500">服务器异常，错误码500</string>
+    <string name="http_net_error">网络中断，请检查您的网络状态</string>
+    <string name="http_net_timeout_error">网络连接超时，请检查您的网络状态</string>
+    <string name="server_not_supported">服务器暂不支持此操作,请升级后台程序</string>
+</resources>
