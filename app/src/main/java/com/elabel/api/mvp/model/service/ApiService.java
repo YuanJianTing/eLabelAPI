@@ -2,6 +2,7 @@ package com.elabel.api.mvp.model.service;
 
 import com.elabel.api.mvp.model.entity.BleData;
 import com.elabel.api.mvp.model.entity.ESLTagType;
+import com.elabel.api.mvp.model.entity.LEDDataEntity;
 import com.elabel.api.mvp.model.entity.PageBody;
 import com.elabel.api.mvp.model.entity.QueryTagEntity;
 import com.elabel.api.mvp.model.entity.ResponseBase;
@@ -59,6 +60,14 @@ public interface ApiService {
     @Multipart
     @POST("api/tag/get_ble_data")
     Observable<ResponseBase<BleData>> getBleImagePack(@PartMap Map<String, RequestBody> data, @Part MultipartBody.Part file);
+
+    /**
+     * get led pack
+     * @param dataEntity
+     * @return
+     */
+    @POST("api/tag/led_data")
+    Observable<ResponseBase<String[]>> ledData(@Body LEDDataEntity dataEntity);
 
 
     @GET("api/tag/DeleteTag/{mac}")

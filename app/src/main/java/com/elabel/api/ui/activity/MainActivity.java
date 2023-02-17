@@ -34,6 +34,7 @@ import com.elabel.api.injection.component.AppComponent;
 import com.elabel.api.injection.component.DaggerMainComponent;
 import com.elabel.api.injection.module.MainModule;
 import com.elabel.api.mvp.model.entity.BleData;
+import com.elabel.api.mvp.model.entity.LEDDataEntity;
 import com.elabel.api.mvp.model.entity.ResponseBase;
 import com.elabel.api.mvp.model.service.RepositoryManager;
 import com.elabel.api.ui.base.BaseActivity;
@@ -46,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity {
             //label barcode
             String tagBarcode="400000037CB3";
             getData(tagBarcode);
+            //getLEDData(tagBarcode);
         }
     }
 
@@ -151,6 +154,46 @@ public class MainActivity extends BaseActivity {
                             BleTask task=new BleTask();
                             task.setMac(mac);
                             task.setPack(responseBase.getBody().getData());
+                            send(task);
+                        }else if(responseBase.getCode()==3001){
+                            /**
+                             * code = 3001
+                             * The tag is not under the current account, so you need to add the tag to the current account;
+                             * call addTag(mac)
+                             *In the actual production environment, you should call the secondary method to add the label to the account when using the label for the first time.
+                             */
+                            Log.e("YUAN","打包失败：标签不存在");
+                            //In the actual production environment, you should call the secondary method to add the label to the account when using the label for the first time.
+                            addTag(mac);
+                        }
+                        else if(responseBase.getCode()==3002){
+                            /**
+                             * code = 3002
+                             * The current account does not have the operation permission of this tag
+                             */
+                            Log.e("YUAN","打包失败：权限错误");
+                            binding.txtMessage.setText("标签权限错误，发送失败");
+                        }
+                    }
+                });
+
+    }
+
+    private void getLEDData(String mac){
+        short time=20;
+        LEDDataEntity dataEntity=new LEDDataEntity(mac,time,true,true,false);
+        repositoryManager.ledData(dataEntity)
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriber<ResponseBase<String[]>>() {
+                    @Override
+                    public void onNext(@NonNull ResponseBase<String[]> responseBase) {
+                        if(responseBase.getCode()==0) {
+                            binding.txtMessage.setText("打包成功，正在发送....");
+                            BleTask task=new BleTask();
+                            task.setMac(mac);
+                            task.setPack(Arrays.asList(responseBase.getBody()));
                             send(task);
                         }else if(responseBase.getCode()==3001){
                             /**

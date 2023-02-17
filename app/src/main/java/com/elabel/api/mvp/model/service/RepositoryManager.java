@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import com.elabel.api.MyApplication;
 import com.elabel.api.mvp.model.entity.BleData;
 import com.elabel.api.mvp.model.entity.ESLTagType;
+import com.elabel.api.mvp.model.entity.LEDDataEntity;
 import com.elabel.api.mvp.model.entity.PageBody;
 import com.elabel.api.mvp.model.entity.QueryTagEntity;
 import com.elabel.api.mvp.model.entity.ResponseBase;
@@ -68,6 +69,10 @@ public class RepositoryManager {
         Map<String, RequestBody> map = new HashMap<>();
         map.put("mac", RequestBody.create( mac,MediaType.parse("text/plain")));
         return apiService.getBleImagePack(map,body);
+    }
+
+    public Observable<ResponseBase<String[]>> ledData(LEDDataEntity dataEntity){
+        return apiService.ledData(dataEntity);
     }
 
     public Observable<ResponseBase<String>> addTag(String mac){
