@@ -2,7 +2,7 @@
 ### eLable Bluetooth electronic price tag Open API
 ### 支持Android SDK5.0 以上版本；手机需要支持低功耗蓝牙(BLE)蓝牙版本为5.0以上
 
-## Build 1.0.0
+## Build 1.0.1
 ## 以上代码仅供对接参考,部分代码可能存在问题，请仔细阅读代码后在使用。
 **使用流程**
 - 初始化SDK(Android6.0需提前获取蓝牙及位置权限)
@@ -24,6 +24,7 @@ BleManager.getInstance().enableBluetooth();
 ```
 ## 更新日志
 - 1.0.0 上传代码
+- 1.0.1 增加LED接口
 
 
 ## 异常处理与解释
