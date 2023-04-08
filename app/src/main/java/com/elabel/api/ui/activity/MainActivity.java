@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
             login();
         }else if(view.getId()==R.id.btn_send){
             //label barcode
-            String tagBarcode="[lebel barcode]";
+            String tagBarcode="[label barcode]";
             getData(tagBarcode);
             //getLEDData(tagBarcode);
         }
